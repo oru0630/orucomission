@@ -29,22 +29,23 @@
         }
         .banner {
             width: 100%;
-            max-height: 800px; /* 배너 높이 제한 */
-            overflow: hidden; /* 이미지가 넘치지 않도록 */
-            margin-bottom: 20px; /* 배너와 본문 간 간격 */
+            max-height: 800px;
+            overflow: hidden;
+            margin-bottom: 20px;
         }
 
         .banner img {
             width: 100%;
-            height: auto; /* 이미지 비율 유지 */
-            object-fit: cover; /* 배너에 맞게 잘라내기 */
+            height: auto;
+            object-fit: cover;
         }
 
         .container {
-            width: calc(100% - 500px);
+            width: 100%;
+            max-width: 1200px; /* 최대 너비 제한 */
             background-color: white;
             padding: 20px;
-            margin-bottom: 200px;  /* 원하는 크기(20px)로 하단 여백 추가 */
+            margin-bottom: 200px;
             box-sizing: border-box;
         }
 
@@ -53,14 +54,14 @@
             text-align: left;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* 좌우 공간을 적절히 분배 */
+            justify-content: space-between;
         }
 
         .text {
             display: flex;
             flex-direction: column;
-            flex-grow: 1; /* 남은 공간을 차지하도록 설정 */
-        }      
+            flex-grow: 1;
+        }
 
         .header .image-container {
             width: 150px;
@@ -77,28 +78,17 @@
             object-fit: cover;
         }
 
-        .header .text {
-            margin-top: 0px;
-            display: flex;
-            flex-direction: column;
+        .header .title {
+            font-size: 100px;
+            font-weight: bold;
+            text-align: left;
+            font-family: 'NoonnuBasicGothicRegular';
         }
 
         .header .subtitle {
             font-size: 30px;
             color: #a1a1a1;
-            font-family: 'NoonnuBasicGothicRegular'
-        }
-
-        .header .title {
-            font-size: 100px;
-            font-weight: bold;
-            text-align: left; /* 왼쪽 정렬 */
-            font-family: 'NoonnuBasicGothicRegular'
-        }
-
-        .header .title span {
-            font-size: 40px;
-            font-weight: normal;
+            font-family: 'NoonnuBasicGothicRegular';
         }
 
         .grid {
@@ -114,11 +104,6 @@
             gap: 20px;
         }
 
-        .grid-item:hover {
-            transform: translateY(-10px);
-            transition: transform 0.3s ease;
-        }
-
         .grid-item {
             background-color: #ddd;
             border: 1px solid #000;
@@ -129,12 +114,6 @@
             display: flex;
             flex-direction: column;
             transition: transform 0.3s ease;
-        }
-
-        .thumbnail {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            overflow: hidden;
         }
 
         .thumbnail img {
@@ -152,15 +131,7 @@
             font-weight: bold;
             font-size: 16px;
             text-align: center;
-            font-family: 'GmarketSansMedium'
-        }
-        
-        .title span1 {
-            font-size: 10px;
-        }
-        
-        .title span2 {
-            font-size: 10px;
+            font-family: 'GmarketSansMedium';
         }
 
         button {
@@ -180,11 +151,11 @@
         }
 
         .contact-container {
-            margin-top: -110px; /* 위쪽 여백 제거 */
+            margin-top: -110px;
             font-size: 20px;
             color: #000000;
             font-family: 'NoonnuBasicGothicRegular';
-            text-align: right; /* 오른쪽 정렬 */
+            text-align: right;
         }
 
         .contact-container img {
@@ -193,8 +164,62 @@
             margin-right: 5px;
         }
         .contact-container div {
-            margin-bottom: 5px; /* 항목 간 간격 추가 */
+            margin-bottom: 5px;
         }
+
+        /* 모바일 화면을 위한 반응형 디자인 */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .header .title {
+                text-align: center; /* 모바일 환경에서 가운데 정렬 */
+            }
+            
+            .header .image-container {
+                margin-right: 0px;
+            }
+
+            .grid-row {
+                grid-template-columns: repeat(2, 1fr); /* 모바일에서는 2열로 변경 */
+            }
+
+            .header .title {
+                font-size: 50px; /* 제목 크기 조정 */
+            }
+
+            .header .subtitle {
+                font-size: 20px; /* 서브타이틀 크기 조정 */
+            }
+
+            .grid-item {
+                font-size: 14px; /* 아이템 텍스트 크기 조정 */
+            }
+
+            .button-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-container {
+                margin-top: 10px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header .title {
+                font-size: 30px; /* 더 작은 화면에서 제목 크기 조정 */
+            }
+
+            .grid-row {
+                grid-template-columns: 1fr; /* 1열로 변경 */
+            }
+        }
+
 
 
 
