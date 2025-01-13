@@ -115,6 +115,7 @@
             flex-direction: column;
             transition: transform 0.3s ease;
         }
+        
 
         .thumbnail img {
             width: 100%;
@@ -503,16 +504,22 @@ const mixGridContainer = document.getElementById('mix-grid-container');
 
 // "작곡" 버튼 클릭 이벤트 수정
 compositionBtn.addEventListener('click', () => {
-    gridContainer.style.display = 'block';      // 작곡용 grid 표시
-    mixGridContainer.style.display = 'none';   // 믹스용 grid 숨김
-    mixText.style.display = 'none';            // 믹스 텍스트 숨김
+    if (gridContainer.style.display === 'block') {
+        gridContainer.style.display = 'none';  // 접기
+    } else {
+        gridContainer.style.display = 'block'; // 펼치기
+        mixGridContainer.style.display = 'none'; // 다른 그리드 숨김
+    }
 });
 
 // "믹스" 버튼 클릭 이벤트 수정
 mixBtn.addEventListener('click', () => {
-    gridContainer.style.display = 'none';      // 작곡용 grid 숨김
-    mixGridContainer.style.display = 'block'; // 믹스용 grid 표시
-    mixText.style.display = 'none';           // 믹스 텍스트 숨김
+    if (mixGridContainer.style.display === 'block') {
+        mixGridContainer.style.display = 'none'; // 접기
+    } else {
+        mixGridContainer.style.display = 'block'; // 펼치기
+        gridContainer.style.display = 'none'; // 다른 그리드 숨김
+    }
 });
     </script>
 </body>
