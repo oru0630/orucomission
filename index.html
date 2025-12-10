@@ -3,613 +3,555 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Commision</title>
+    <title>오경식 포트폴리오</title>
     <style>
-        @font-face {
-            font-family: 'NoonnuBasicGothicRegular';
-            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noon-2410@1.0/NoonnuBasicGothicRegular.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-        }
+        /* ===========================
+           1. 폰트 정의
+        =========================== */
+        @font-face { font-family: 'Aggravo'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff') format('woff'); font-weight: 300; font-display: swap; }
+        @font-face { font-family: 'Aggravo'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroM.woff') format('woff'); font-weight: 500; font-display: swap; }
+        @font-face { font-family: 'Aggravo'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff'); font-weight: 700; font-display: swap; }
 
-        @font-face {
-            font-family: 'GmarketSansMedium';
-            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
+        @font-face { font-family: 'PpObBat'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2507-1@1.0/printingboxLight.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+        @font-face { font-family: 'PpObBat'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2507-1@1.0/printingboxMedium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+        @font-face { font-family: 'PpObBat'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2507-1@1.0/printingboxBold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
 
+        /* ===========================
+           2. 기본 설정 & 유동적 스케일
+        =========================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* 폰트 사이즈 유동적 조절 */
+        html { font-size: clamp(14px, 1.1vw, 22px); } 
+        
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            background-color: #828282;
-            font-family: Arial, sans-serif;
-        }
-        .banner {
-            width: 100%;
-            max-height: 800px;
-            overflow: hidden;
-            margin-bottom: 20px;
+            font-family: 'Aggravo', sans-serif;
+            background-color: #fff;
+            color: #000;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; 
         }
 
-        .banner img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
+        .special-font {
+            font-family: 'PpObBat', sans-serif !important;
+            font-weight: 700 !important;
+            letter-spacing: -0.5px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 1300px; /* 최대 너비 제한 */
-            background-color: #dfdfdf;
+        /* ===========================
+           3. 네비게이션
+        =========================== */
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
             padding: 20px;
-            margin-bottom: 200px;
-            box-sizing: border-box;
+            border-radius: 50%;
+            transition: all 0.3s;
+            font-family: 'Aggravo', sans-serif;
+        }
+        .nav-btn:hover { background: rgba(0,0,0,0.1); transform: translateY(-50%) scale(1.1); }
+        .nav-btn.prev { left: 20px; }
+        .nav-btn.next { right: 20px; }
+        .nav-btn.hidden { display: none; }
+        
+        @media (max-width: 768px) {
+            .nav-btn { font-size: 2rem; padding: 10px; }
+            .nav-btn.prev { left: 5px; }
+            .nav-btn.next { right: 5px; }
         }
 
-        .header {
-            margin-top: 90px;
-            text-align: left;
+        /* ===========================
+           4. 페이지 구조
+        =========================== */
+        .page {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; 
+            overflow-x: hidden;
+        }
+
+        .page.active { transform: translateX(0); opacity: 1; pointer-events: auto; z-index: 10; }
+        .page.prev-page { transform: translateX(-100%); }
+        .page.next-page { transform: translateX(100%); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes growDown {
+            from { height: 0; }
+            to { height: 200px; }
+        }
+
+        /* ===========================
+           5. 페이지 1 (Intro)
+        =========================== */
+        #page1 .top-section {
+            flex: 6;
+            position: relative;
+            padding: 0 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #page1 .header-date {
+            position: absolute; top: 5vh; right: 5vw;
+            text-align: right; font-weight: 500; font-size: 1.2rem;
+            opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.2s;
+        }
+        #page1 .header-date::after {
+            content: ''; position: absolute; top: -10px; right: -20px; width: 6px; height: 3.5rem; background-color: #000;
+        }
+        #page1 .title-wrapper { display: flex; align-items: center; margin-top: 2vh; gap: 30px; }
+        #page1 .vertical-bar {
+            width: 1.2rem; background-color: #000; height: 0;
+            animation: growDown 0.8s ease-out forwards 0.5s;
+        }
+        #page1 .name-info { display: flex; flex-direction: column; gap: 10px; }
+        #page1 .name {
+            font-size: 5rem; font-weight: 700; letter-spacing: -2px; line-height: 1.1;
+            opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.8s;
+        }
+        #page1 .role {
+            font-size: 2.2rem; font-weight: 500; color: #222;
+            opacity: 0; animation: fadeInUp 0.8s ease-out forwards 1.0s;
+        }
+        #page1 .bottom-section {
+            flex: 4;
+            background-color: #f2f2f2;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            padding-left: 15%;
+        }
+        #page1 .description { font-size: 1.4rem; line-height: 1.8; font-weight: 500; }
+        #page1 .description p { opacity: 0; animation: fadeInUp 0.8s ease-out forwards; }
+        .d-1 { animation-delay: 1.4s !important; }
+        .d-2 { animation-delay: 1.6s !important; }
+        .d-3 { animation-delay: 1.8s !important; }
+
+        @media (max-width: 768px) {
+            #page1 .name { font-size: 3.5rem; }
+            #page1 .role { font-size: 1.4rem; }
+            #page1 .title-wrapper { gap: 15px; flex-direction: row; }
+            #page1 .bottom-section { padding: 30px; justify-content: center; text-align: center; }
+            #page1 .header-date { font-size: 0.9rem; top: 20px; right: 20px; }
         }
 
-        .header .title span {
-            font-size: 40px;
-            font-weight: normal;
-        }
-
-        .text {
+        /* ===========================
+           6. 페이지 2 (Career) - 사이즈 확대 적용
+        =========================== */
+        #page2 { 
+            padding: 4vh 5%; 
             display: flex;
             flex-direction: column;
-            flex-grow: 1;
+            justify-content: center;
         }
 
-        .header .image-container {
-            width: 150px;
-            height: 150px;
-            border: 1px solid #000;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 10px;
+        .career-main-title {
+            font-size: 2.5rem; font-weight: 700; margin-bottom: 2vh; text-align: center;
+            opacity: 0; transition: 0.5s; flex-shrink: 0;
         }
+        .page.active .career-main-title { opacity: 1; }
 
-        .header .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .header .title {
-            font-size: 100px;
-            font-weight: bold;
-            text-align: left;
-            font-family: 'NoonnuBasicGothicRegular';
-        }
-
-        .header .subtitle {
-            font-size: 30px;
-            color: #a1a1a1;
-            font-family: 'NoonnuBasicGothicRegular';
-        }
-
-        .grid {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            margin-top: 70px;
-        }
-
-        .grid-row {
+        .career-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            grid-template-columns: 1fr 2px 1fr 2px 1fr;
+            gap: 2vw;
+            flex: 1;
+            min-height: 0;
         }
 
-        .grid-item {
-            background-color: #ddd;
-            border: 1px solid #000;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease;
+        .vertical-line {
+            background-color: #000; width: 2px; height: 100%;
+            transform: scaleY(0); transform-origin: top; transition: transform 1s ease 0.5s;
+        }
+        .page.active .vertical-line { transform: scaleY(1); }
+
+        .career-col { 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            height: 100%;
+            padding-bottom: 2vh;
         }
         
+        .col-header {
+            text-align: center; font-size: 1.8rem; font-weight: 700;
+            border-bottom: 4px solid #ddd; padding-bottom: 1vh; margin-bottom: 2vh; position: relative;
+            flex-shrink: 0;
+        }
+        .col-header::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0%; height: 4px; background: #000;
+            transition: width 0.8s ease 0.8s;
+        }
+        .page.active .col-header::after { width: 100%; }
 
-        .thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .item-wrapper {
+            display: flex; align-items: center; gap: 1vw;
+            opacity: 0; transform: translateY(20px);
+            text-decoration: none; color: inherit; cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+            border-radius: 12px; padding: 0.5vh 0.5vw;
+        }
+        .item-wrapper.show:hover {
+            transform: translateY(0) scale(1.02); background-color: rgba(0, 0, 0, 0.03); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .item-wrapper:nth-child(odd) { flex-direction: row-reverse; text-align: right; }
+        .item-wrapper:nth-child(even) { flex-direction: row; text-align: left; }
+        .item-wrapper.show { animation: fadeInUp 0.6s ease-out forwards; }
+
+        /* [수정] 이미지 크기 확대 (12vh -> 15vh, 약 20% 증가) */
+        .album-img {
+            width: 15vh; height: 15vh; 
+            min-width: 90px; min-height: 90px;
+            max-width: 220px; max-height: 220px; /* 최대 크기도 해제 */
+            background-color: #e0e0e0; background-size: cover; background-position: center;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.2); border-radius: 4px; flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        .item-wrapper:hover .album-img { transform: scale(1.02); box-shadow: 6px 6px 15px rgba(0,0,0,0.3); }
+
+        .text-box { display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
+        
+        /* [수정] 텍스트 크기 확대 */
+        .song-title { font-size: 1.5rem; line-height: 1.2; margin-bottom: 0.5vh; transition: color 0.3s; word-break: keep-all; }
+        .item-wrapper:hover .song-title { color: #333; }
+        .song-desc { font-size: 1.15rem; color: #444; font-weight: 300; line-height: 1.3; white-space: pre-line; word-break: keep-all;}
+        .highlight { color: #000; font-weight: 500; }
+
+        @media (max-width: 1024px) {
+            #page2 { padding: 80px 20px 40px 20px; display: block; overflow-y: auto; }
+            .career-grid { grid-template-columns: 1fr; gap: 40px; display: block; }
+            .vertical-line { display: none; }
+            .career-col { margin-bottom: 50px; }
+            .album-img { width: 120px; height: 120px; } /* 모바일에서도 조금 키움 */
         }
 
-        .title-container {
-            background-color: transparent;
-            padding: 10px 0;
+        /* ===========================
+           7. 페이지 3 (순서 변경: 제목 -> 텍스트 -> 영상)
+        =========================== */
+        #page3 {
+            padding: 5vh 5%; 
+            display: flex; flex-direction: column; 
+            justify-content: center;
+            gap: 3vh; /* 요소 간 간격 */
+        }
+        
+        .page3-container {
+            display: flex; flex-direction: column;
+            height: 100%; width: 100%; max-width: 1200px; margin: 0 auto;
+            gap: 2vh;
         }
 
-        .title {
-            font-weight: bold;
-            font-size: 16px;
-            text-align: center;
-            font-family: 'GmarketSansMedium';
+        /* 1. 상단: 제목 (Performance Title) */
+        .section-title {
+            font-size: 2.5rem; font-weight: 700; border-left: 10px solid #000;
+            padding-left: 20px; margin-bottom: 1vh; opacity: 0; flex-shrink: 0;
+            margin-top: 2vh;
         }
 
-        .title span1 {
-            font-size: 10px;
-            font-weight: normal;
+        /* 2. 중간: 비전 텍스트 (Vision) */
+        .vision-section {
+            flex: 0 0 auto; /* 높이 자동 (내용만큼만) */
+            background-color: #f9f9f9; border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 3vh 3vw; opacity: 0;
+        }
+        .vision-text { font-size: clamp(1rem, 1.5vw, 1.6rem); line-height: 1.8; font-weight: 500; color: #333; word-break: keep-all; }
+        .vision-highlight { font-weight: 700; color: #000; background: linear-gradient(to top, rgba(200, 200, 200, 0.3) 40%, transparent 40%); }
+
+        /* 3. 하단: 영상 (Videos) - 가장 크게 */
+        .video-card-container {
+            display: flex; gap: 3vw; justify-content: flex-start; 
+            flex: 1; /* 남은 공간 모두 차지 */
+            align-items: stretch;
+            min-height: 0; /* 파이어폭스 등 호환성 */
         }
 
-        .title span2 {
-            font-size: 8px;
-            font-weight: normal;
+        .video-card {
+            flex: 1; 
+            background: #fff; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-decoration: none; color: inherit;
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0; transform: translateY(30px);
+            display: flex; flex-direction: column;
         }
+        .video-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+        
+        .video-thumb {
+            width: 100%; 
+            flex: 1; /* 썸네일이 카드 내에서 가능한 꽉 차게 */
+            background-color: #333; background-size: cover; background-position: center; position: relative;
+            min-height: 25vh; /* 썸네일 최소 높이 확보 */
+        }
+        .video-thumb::after {
+            content: '▶'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 5rem; color: rgba(255,255,255,0.8); text-shadow: 0 2px 10px rgba(0,0,0,0.5); transition: transform 0.3s;
+        }
+        .video-card:hover .video-thumb::after { transform: translate(-50%, -50%) scale(1.2); color: #fff; }
 
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 18px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+        .video-info { padding: 2vh 1.5vw; flex: 0 0 auto; display: flex; flex-direction: column; justify-content: center; background: #fafafa;}
+        .video-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5vh; line-height: 1.3; }
+        .video-sub { font-size: 1rem; color: #666; font-weight: 500; }
 
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .contact-container {
-            margin-top: -110px;
-            font-size: 20px;
-            color: #000000;
-            font-family: 'NoonnuBasicGothicRegular';
-            text-align: right;
-        }
-
-        .contact-container img {
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 5px;
-        }
-        .contact-container div {
-            margin-bottom: 5px;
-        }
-
-        /* 모바일 화면을 위한 반응형 디자인 */
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            .header .title {
-                text-align: center; /* 모바일 환경에서 가운데 정렬 */
-            }
-            
-            .header .image-container {
-                margin-right: 0px;
-            }
-
-            .grid-row {
-                grid-template-columns: repeat(2, 1fr); /* 모바일에서는 2열로 변경 */
-            }
-
-            .header .title {
-                font-size: 50px; /* 제목 크기 조정 */
-            }
-
-            .header .subtitle {
-                font-size: 20px; /* 서브타이틀 크기 조정 */
-            }
-
-            .grid-item {
-                font-size: 14px; /* 아이템 텍스트 크기 조정 */
-            }
-
-            .button-container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .contact-container {
-                margin-top: 10px;
-                text-align: center;
-            }
+            #page3 { padding-top: 80px; display: block; overflow-y: auto; }
+            .page3-container { display: block; gap: 30px; }
+            .vision-section { margin-bottom: 30px; }
+            .video-card-container { display: block; }
+            .video-card { margin-bottom: 20px; min-height: 300px; }
+            .section-title { font-size: 1.8rem; }
+            .vision-text { font-size: 1.1rem; padding: 10px; }
         }
 
-        @media (max-width: 480px) {
-            .header .title {
-                font-size: 30px; /* 더 작은 화면에서 제목 크기 조정 */
-            }
-
-            .grid-row {
-                grid-template-columns: 1fr; /* 1열로 변경 */
-            }
-
-            .header .subtitle {
-            font-size: 30px;
-            color: #a1a1a1;
-            margin-top: 20px;
-            font-family: 'NoonnuBasicGothicRegular';
-            }
-        }
-
-
-
-
+        /* 애니메이션 순서: 제목 -> 텍스트 -> 영상 */
+        .anim-p3-1 { animation: fadeInUp 0.8s ease-out forwards 0.2s; } /* 제목 */
+        .anim-p3-2 { animation: fadeInUp 0.8s ease-out forwards 0.5s; } /* 텍스트 */
+        .anim-p3-3 { animation: fadeInUp 0.8s ease-out forwards 0.8s; } /* 영상1 */
+        .anim-p3-4 { animation: fadeInUp 0.8s ease-out forwards 1.0s; } /* 영상2 */
 
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="banner">
-            <img src="https://i.imgur.com/MBZCj5s.jpg" alt="Banner Image" style="width: 100%; height: auto;">
+
+    <button class="nav-btn prev hidden" id="prevBtn">&#10094;</button>
+    <button class="nav-btn next" id="nextBtn">&#10095;</button>
+
+    <section id="page1" class="page active">
+        <div class="top-section">
+            <div class="header-date">2025.12.11<br>작업 포트폴리오</div>
+            <div class="title-wrapper">
+                <div class="vertical-bar"></div>
+                <div class="name-info">
+                    <h1 class="name">오경식</h1>
+                    <h2 class="role">AET 작곡가 / 프로듀서 / 믹싱 엔지니어</h2>
+                </div>
+            </div>
         </div>
+        <div class="bottom-section">
+            <div class="description">
+                <p class="d-1">안녕하세요, 음악 프로듀서 AET입니다.</p>
+                <p class="d-2">다양한 실무 경험과 섬세한 프로덕션을 기반으로,</p>
+                <p class="d-3">프로젝트에 가장 적합한 고퀄리티 사운드를 제공합니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="page2" class="page next-page">
+        <h1 class="career-main-title">My Career</h1>
         
-        <div class="header">
-            <div class="image-container">
-                <img src="https://i.imgur.com/3CEaLSi.png" alt="Profile Image">
+        <div class="career-grid">
+            <div class="career-col">
+                <h2 class="col-header">대중음악</h2>
+                <a href="https://www.youtube.com/watch?v=UrZXzp2t91M" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/rockstar.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title special-font">김재중<br>- ROCKSTAR</div>
+                        <div class="song-desc">작곡, 편곡</div>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/watch?v=oqFYchx2K5Q" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/%EC%B2%AD%EC%B6%98%EC%9D%98%EC%9D%BC%EB%A0%89%ED%8A%B8%EB%A1%9C%EB%8B%88%EC%B9%B4.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title special-font">마크툽<br>청춘의 일렉트로니카 -</div>
+                        <div class="song-desc">편곡</div>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/watch?v=jwPoEaqb3NI" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/%ED%9D%B0%EB%88%88%EC%9D%B4%EB%82%B4%EB%A0%A4%EC%99%80.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title">레볼루션 하트<br>- 흰 눈이 내려와</div>
+                        <div class="song-desc">작사, 작곡, 편곡<br><span class="highlight">(멜론 발매 1주 차트 18위)</span></div>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/watch?v=7rN6QWzpz0Q" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/19.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title">쿠모<br>19 -</div>
+                        <div class="song-desc">편곡</div>
+                    </div>
+                </a>
             </div>
-            <div class="text">
-                <div class="subtitle">Music Composer</div>
-                <div class="title">오르<span> (오경식)</span></div>
-                        <!-- 연락처 컨테이너 추가 -->
-                        <div class="contact-container">
-                            <div>
-                                <img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1654670003399/aOsHknZja.png" alt="Instagram Icon" style="width: 30px;">
-                                <a href="https://www.instagram.com/adjustment025" target="_blank" style="text-decoration: none; color: black;">
-                                    adjustment025
-                                </a>
-                            </div>
-                            <div>
-                                <img src="https://cdn-icons-png.flaticon.com/256/5969/5969020.png" alt="Twitter Icon" style="width: 30px;">
-                                <a href="https://x.com/adjust025" target="_blank" style="text-decoration: none; color: black;">
-                                    adjust025
-                                </a>
-                            </div>
-                            <div>
-                                <img src="https://cdn.iconscout.com/icon/free/png-256/free-email-icon-download-in-svg-png-gif-file-formats--mail-envelope-message-miscellaneous-pack-icons-1713291.png?f=webp&w=256" alt="Email Icon" style="width: 30px;">
-                                <a href="mailto:adjustment025@gmail.com" target="_blank" style="text-decoration: none; color: black;">
-                                    adjustment025@gmail.com
-                                </a>
-                            </div>
-                        </div>
+            
+            <div class="vertical-line"></div>
+            
+            <div class="career-col">
+                <h2 class="col-header">게임음악</h2>
+                <a href="https://www.youtube.com/watch?v=Wg7qCZLQwJ8" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/%EB%9F%BD%EB%94%9C.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title">러브 딜리버리 2</div>
+                        <div class="song-desc"><span class="highlight">(게임 펀딩 금액 2억)</span><br>BGM, OST 작곡</div>
+                    </div>
+                </a>
+                <a href="https://store.onstove.com/ko/games/1174" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/%EB%9F%AC%EB%B8%8C%EC%9D%B8%EB%A1%9C%EA%B7%B8%EC%9D%B8.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title">러브인 로그인</div>
+                        <div class="song-desc">BGM, OST 작곡</div>
+                    </div>
+                </a>
+                <a href="https://store.onstove.com/ko/games/101093" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/%EB%A7%88%EC%9D%B4%EC%8D%B8%EB%A8%B8%EB%B2%A0%EC%BC%80%EC%9D%B4%EC%85%98.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title">마이 썸머 베케이션</div>
+                        <div class="song-desc">OST 작사, 작곡, 편곡</div>
+                    </div>
+                </a>
+                <a href="https://store.onstove.com/ko/games/102196" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/%ED%9B%84%EC%A6%88%EB%A7%88%EC%9D%B4%EB%A7%88%EB%8B%88%EB%98%90.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title">후즈 마이 마니또</div>
+                        <div class="song-desc">BGM 작곡</div>
+                    </div>
+                </a>
             </div>
-        </div>
 
-        <!-- 버튼 추가 -->
-        <div class="button-container" style="text-align: center; margin-top: 20px;">
-            <button id="composition-btn">작/편곡</button>
-            <button id="mix-btn">믹스</button>
-            <button id="mr-btn">MR 제작 및 편곡</button>
-        </div>
+            <div class="vertical-line"></div>
 
-        <!-- Grid 컨테이너 -->
-        <div id="grid-container" style="display: none;">
-            <div class="grid">
-                <div class="grid-row">
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=UrZXzp2t91M" target="_blank">
-                                <img src="https://i.imgur.com/5lmCZOb.png" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">김재중 - ROCK STAR</div>
-                        </div>
-                    </div>  
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=4QIAExYORT4" target="_blank">
-                                <img src="https://img.youtube.com/vi/4QIAExYORT4/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">쿠모 - 일기장</div>
-                        </div>
-                    </div>  
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=CDVi_8otwXU" target="_blank">
-                                <img src="https://img.youtube.com/vi/CDVi_8otwXU/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">Miiro - POWDER</div>
-                        </div>
-                    </div>  
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=oqFYchx2K5Q" target="_blank">
-                                <img src="https://img.youtube.com/vi/oqFYchx2K5Q/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">마크툽 - 청춘의 일렉트로니카</div>
-                        </div>
-                    </div>  
-                </div>
-                <div class="grid-row">
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=jwPoEaqb3NI" target="_blank">
-                                <img src="https://img.youtube.com/vi/jwPoEaqb3NI/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">레볼루션 하트 - 흰 눈이 내려와</div>
-                        </div>
-                    </div>                
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=l3nF0-Sut_g" target="_blank">
-                                <img src="https://img.youtube.com/vi/l3nF0-Sut_g/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">오르 - 편지</div>
-                        </div>
-                    </div>  
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=pCwy67W7pUc&" target="_blank">
-                                <img src="https://img.youtube.com/vi/pCwy67W7pUc/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">Deepshower - Milky Way<span1> (Feat. 새빛)</span1></div>
-                        </div>
-                    </div>  
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=SSFxlYeHQAQ" target="_blank">
-                                <img src="https://img.youtube.com/vi/SSFxlYeHQAQ/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title"><span2>Punchnello, Deepshower - 조금 돌아왔어</span2><span1> (Feat. Skinny Brown)</span1></div>
-                        </div>
-                    </div>  
-                </div>
-                <div class="grid-row">
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=JPPSXYfCeYo" target="_blank">
-                                <img src="https://img.youtube.com/vi/JPPSXYfCeYo/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">안캐 - Dance or Not</div>
-                        </div>
-                    </div>                
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=n5MYYKj5mNM" target="_blank">
-                                <img src="https://img.youtube.com/vi/n5MYYKj5mNM/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">도한새 - 살냄새</div>
-                        </div>
-                    </div>  
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=JERLCDtAjBs" target="_blank">
-                                <img src="https://img.youtube.com/vi/JERLCDtAjBs/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">에스더 - Hands Up</div>
-                        </div>
-                    </div>  
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=K4DCeY7ktaU" target="_blank">
-                                <img src="https://img.youtube.com/vi/K4DCeY7ktaU/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">로야 - Dynamiter</div>
-                        </div>
-                    </div>  
-                </div>
-                <div class="grid-row">
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=7rN6QWzpz0Q" target="_blank">
-                                <img src="https://img.youtube.com/vi/7rN6QWzpz0Q/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">쿠모 - 19</div>
-                        </div>
-                    </div>                
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=avHE59JLqvI" target="_blank">
-                                <img src="https://img.youtube.com/vi/avHE59JLqvI/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">도한새 - Milky Way <span1>(Feat. Skinny Brown)</span1></div>
-                        </div>
-                    </div>  
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=PdEJSlmVRr8" target="_blank">
-                                <img src="https://img.youtube.com/vi/PdEJSlmVRr8/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">오르 - CUPIDO</div>
-                        </div>
-                    </div>   
-                    <div class="grid-item">
-                        <div class="thumbnail">
-                            <a href="https://www.youtube.com/watch?v=p-NV_VVojqo" target="_blank">
-                                <img src="https://img.youtube.com/vi/p-NV_VVojqo/hqdefault.jpg" alt="Video Thumbnail">
-                            </a>
-                        </div>
-                        <div class="title-container">
-                            <div class="title">러브인 로그인 - Only You</div>
-                        </div>
-                    </div>  
-                </div>
+            <div class="career-col">
+                <h2 class="col-header">믹싱</h2>
+                <a href="https://www.youtube.com/watch?v=oucIenRenTY" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/cata.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title">Miiro<br>- 'Cata' (feat. NC.A)</div>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/watch?v=d2PICqfM_bQ" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/Dynamiter.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title">Roya<br>Dynamiter (Feat. 도한세) -</div>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/watch?v=tyCiiOEeFQ8" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/powder2.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title">Miiro<br>- POWDER</div>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/watch?v=fv4jyB-tOrs" target="_blank" class="item-wrapper">
+                    <div class="album-img" style="background-image: url('https://github.com/oru0630/orucomission/blob/main/snowstrom.png?raw=true');"></div>
+                    <div class="text-box">
+                        <div class="song-title">윤마치<br>Snowstorm -</div>
+                    </div>
+                </a>
             </div>
         </div>
+    </section>
 
-<!-- 믹스용 Grid 컨테이너 -->
-<div id="mix-grid-container" style="display: none;">
-    <div class="grid">
-        <div class="grid-row">
-            <div class="grid-item">
-                <div class="thumbnail">
-                    <a href="https://www.youtube.com/watch?v=oucIenRenTY" target="_blank">
-                        <img src="https://img.youtube.com/vi/oucIenRenTY/hqdefault.jpg" alt="Video Thumbnail">
-                    </a>
+    <section id="page3" class="page next-page">
+        <div class="page3-container">
+            
+            <h2 class="section-title anim-p3-1">공연 작업 (Performance Work)</h2>
+
+            <div class="vision-section anim-p3-2">
+                <div class="vision-text">
+                    다양한 아티스트와 회사와 협업한 경험을 바탕으로<br>
+                    <span class="vision-highlight">예술성과 상업성</span>을 갖추어 작사, 작곡, 편곡뿐만 아니라<br>
+                    기획적인 부분과 엔지니어링까지 가능한 프로듀서로<br>
+                    <span class="vision-highlight">높은 퀄리티의 작업물</span>을 만들겠습니다.
                 </div>
-                <div class="title-container">
-                    <div class="title">Miiro 「Cata」 (feat. NC.A)</div>
-                </div>
-            </div>  
-            <div class="grid-item">
-                <div class="thumbnail">
-                    <a href="https://www.youtube.com/watch?v=YgvFR2x2aQ0" target="_blank">
-                        <img src="https://img.youtube.com/vi/YgvFR2x2aQ0/hqdefault.jpg" alt="Video Thumbnail">
-                    </a>
-                </div>
-                <div class="title-container">
-                    <div class="title">ROYA - Dynamiter</div>
-                </div>
-            </div>  
-            <div class="grid-item">
-                <div class="thumbnail">
-                    <a href="https://www.youtube.com/watch?v=CDVi_8otwXU" target="_blank">
-                        <img src="https://img.youtube.com/vi/CDVi_8otwXU/hqdefault.jpg" alt="Video Thumbnail">
-                    </a>
-                </div>
-                <div class="title-container">
-                    <div class="title">Miiro - POWDER</div>
-                </div>
-            </div>  
-            <div class="grid-item">
-                <div class="thumbnail">
-                    <a href="https://www.youtube.com/watch?v=fv4jyB-tOrs" target="_blank">
-                        <img src="https://img.youtube.com/vi/fv4jyB-tOrs/hqdefault.jpg" alt="Video Thumbnail">
-                    </a>
-                </div>
-                <div class="title-container">
-                    <div class="title">MRCH - snowstorm</div>
-                </div>
-            </div>  
+            </div>
+
+            <div class="video-card-container">
+                <a href="https://www.youtube.com/watch?v=FzR-jxDJiDs" target="_blank" class="video-card anim-p3-3">
+                    <div class="video-thumb" style="background-image: url('https://img.youtube.com/vi/FzR-jxDJiDs/maxresdefault.jpg');"></div>
+                    <div class="video-info">
+                        <div class="video-title">진영 - 같은 곳에서</div>
+                        <div class="video-sub">241012 SEOUL FANMEETING</div>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/watch?v=j0FPXYdQblE" target="_blank" class="video-card anim-p3-4">
+                    <div class="video-thumb" style="background-image: url('https://img.youtube.com/vi/j0FPXYdQblE/maxresdefault.jpg');"></div>
+                    <div class="video-info">
+                        <div class="video-title">아이리 칸나 - On The Ground</div>
+                        <div class="video-sub">Performance Cover</div>
+                    </div>
+                </a>
+            </div>
+
         </div>
-    </div>
-</div>
-
-<!-- MR Grid 컨테이너 -->
-<div id="mr-grid-container" style="display: none;">
-    <div class="grid">
-        <div class="grid-row">
-            <div class="grid-item">
-                <div class="thumbnail">
-                    <a href="https://www.youtube.com/watch?v=1tvZGsBf6yo" target="_blank">
-                        <img src="https://img.youtube.com/vi/1tvZGsBf6yo/hqdefault.jpg" alt="Video Thumbnail">
-                    </a>
-                </div>
-                <div class="title-container">
-                    <div class="title">CielA - Golden Cover</div>
-                </div>
-            </div>  
-            <div class="grid-item">
-                <div class="thumbnail">
-                    <a href="https://www.youtube.com/watch?v=4RCYPrIljJQ" target="_blank">
-                        <img src="https://img.youtube.com/vi/4RCYPrIljJQ/hqdefault.jpg" alt="Video Thumbnail">
-                    </a>
-                </div>
-                <div class="title-container">
-                    <div class="title">Eris - 늘 Cover</div>
-                </div>
-            </div>  
-            <div class="grid-item">
-                <div class="thumbnail">
-                    <a href="https://www.youtube.com/watch?v=ofW-xw0RwFk" target="_blank">
-                        <img src="https://img.youtube.com/vi/ofW-xw0RwFk/hqdefault.jpg" alt="Video Thumbnail">
-                    </a>
-                </div>
-                <div class="title-container">
-                    <div class="title">Airi Kanna - On the Ground Cover</div>
-                </div>
-            </div>  
-            <div class="grid-item">
-                <div class="thumbnail">
-                    <a href="https://www.youtube.com/watch?v=FzR-jxDJiDs" target="_blank">
-                         <img src="https://img.youtube.com/vi/FzR-jxDJiDs/hqdefault.jpg" alt="Video Thumbnail">
-                    </a>
-                </div>
-                <div class="title-container">
-                    <div class="title">진영 - 같은 곳에서</div>
-                </div>
-            </div> 
-        </div>
-    </div>
-</div>
-
+    </section>
 
     <script>
-        // 버튼 및 컨테이너 참조
-        const compositionBtn = document.getElementById('composition-btn');
-        const gridContainer = document.getElementById('grid-container');
-        const mixBtn = document.getElementById('mix-btn');
-        // const mixText = document.getElementById('mix-text');
-        const mrBtn = document.getElementById('mr-btn');
-        // const mrText = document.getElementById('mr-text');
+        const pages = document.querySelectorAll('.page');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentPage = 0;
 
+        function updateButtons() {
+            if(currentPage === 0) {
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+            } else if(currentPage === pages.length - 1) {
+                nextBtn.classList.add('hidden');
+                prevBtn.classList.remove('hidden');
+            } else {
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+            }
+        }
 
-// 믹스용 grid-container 참조
-const mixGridContainer = document.getElementById('mix-grid-container');
-const mrGridContainer = document.getElementById('mr-grid-container');
+        function switchPage(index) {
+            if(index > currentPage) {
+                pages[currentPage].classList.remove('active');
+                pages[currentPage].classList.add('prev-page');
+                
+                pages[index].classList.remove('next-page');
+                pages[index].classList.add('active');
+            } else {
+                pages[currentPage].classList.remove('active');
+                pages[currentPage].classList.add('next-page');
 
-// "작곡" 버튼 클릭 이벤트 수정
-compositionBtn.addEventListener('click', () => {
-    if (gridContainer.style.display === 'block') {
-        gridContainer.style.display = 'none';  // 접기
-    } else {
-        gridContainer.style.display = 'block'; // 펼치기
-        mixGridContainer.style.display = 'none'; // 다른 그리드 숨김
-        mrGridContainer.style.display = 'none'; // 다른 그리드 숨김
-    }
-});
+                pages[index].classList.remove('prev-page');
+                pages[index].classList.add('active');
+            }
+            currentPage = index;
+            updateButtons();
+            
+            if(currentPage === 1) runCareerAnimation();
+        }
 
-// "믹스" 버튼 클릭 이벤트 수정
-mixBtn.addEventListener('click', () => {
-    if (mixGridContainer.style.display === 'block') {
-        mixGridContainer.style.display = 'none'; // 접기
-    } else {
-        mixGridContainer.style.display = 'block'; // 펼치기
-        gridContainer.style.display = 'none'; // 다른 그리드 숨김
-        mrGridContainer.style.display = 'none'; // 다른 그리드 숨김
-    }
-});
+        nextBtn.addEventListener('click', () => {
+            if(currentPage < pages.length - 1) switchPage(currentPage + 1);
+        });
 
-// "MR제작" 버튼 클릭 이벤트 수정
-mrBtn.addEventListener('click', () => {
-    if (mrGridContainer.style.display === 'block') {
-        mrGridContainer.style.display = 'none'; // 접기
-    } else {
-        mrGridContainer.style.display = 'block'; // 펼치기
-        mixGridContainer.style.display = 'none'; // 다른 그리드 숨김
-        gridContainer.style.display = 'none'; // 다른 그리드 숨김
-    }
-});
+        prevBtn.addEventListener('click', () => {
+            if(currentPage > 0) switchPage(currentPage - 1);
+        });
+
+        function runCareerAnimation() {
+            const items = document.querySelectorAll('#page2 .item-wrapper');
+            items.forEach(item => {
+                item.classList.remove('show');
+                item.style.animationDelay = '0s';
+            });
+
+            setTimeout(() => {
+                items.forEach((item, idx) => {
+                    const delay = 0.5 + (idx * 0.1); 
+                    item.style.animationDelay = delay + 's';
+                    item.classList.add('show');
+                });
+            }, 100);
+        }
+
+        updateButtons();
     </script>
 </body>
 </html>
